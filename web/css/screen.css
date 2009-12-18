@@ -34,3 +34,6 @@
 .tree-default .label { position : relative; width : 80%}
 
 .sf_admin_actions{ clear: both; padding-top :1em;}
+
+button { line-height:12px;padding:2px 5px 2px 2px; overflow : visible; width : auto; font-size : 85%}
+button img { border:medium none; float:none; height:16px; margin:0 3px -3px 0 !important;padding:0;width:16px;}
