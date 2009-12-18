@@ -1,7 +1,7 @@
 <?php
 
 
-class sfJsTreeDoctrineComponents extends sfComponents
+class sfJqueryTreeDoctrineComponents extends sfComponents
 {
     public function getTree($model, $rootId = 0)
   {
