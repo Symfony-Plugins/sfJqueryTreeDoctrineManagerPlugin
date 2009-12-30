@@ -20,9 +20,8 @@ class sfJqueryTreeDoctrineManagerComponents extends sfComponents
   public function executeManager()
   {
     $this->records = $this->getTree($this->model, $this->root);
-
-    echo '<hr>';
-    echo '<pre>' . print_r('--' . $this->records,1) . '</pre>';
-    echo '<hr>';
+    if (!$this->records){ echo 'pas de racine';}
+    
+    
   }
 }

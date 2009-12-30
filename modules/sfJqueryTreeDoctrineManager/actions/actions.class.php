@@ -18,11 +18,11 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
   {
     if( $rootId )
     {
-      $root = Doctrine::getTable($model)->getTree()->findRoot($rootId);
+      $root = Doctrine_Core::getTable($model)->getTree()->findRoot($rootId);
     
-      return Doctrine::getTable($model)->getTree()->fetchBranch($root->getId()); 
+      return Doctrine_Core::getTable($model)->getTree()->fetchBranch($root->getId()); 
     } else {
-      return Doctrine::getTable($model)->getTree()->fetchTree();
+      return Doctrine_Core::getTable($model)->getTree()->fetchTree();
     }
   }
 
@@ -31,10 +31,14 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
     $parent_id = $this->getRequestParameter('parent_id');
     $model = $this->getRequestParameter('model');
     $root = $this->getRequestParameter('root');
+    $field = $this->getRequestParameter('field');
+    $value = $this->getRequestParameter('value');
+    
+    $record = Doctrine_Core::getTable($model)->find($parent_id);
 
-    $record = Doctrine::getTable($model)->find($parent_id);
 
     $child = new $model;
+    $child->set($field, $value);
     $record->getNode()->addChild($child);
     
     $this->records = $this->getTree($model, $root);
@@ -49,13 +53,11 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
     
     $root = new $model;
     
-    $root->synchronizeWithArray( $data );
+    $root->synchronizeWithArray( $data );    
     
-    
-    
-    Doctrine::getTable($model)->getTree()->createRoot($root);
+    Doctrine_Core::getTable($model)->getTree()->createRoot($root);
     $this->records = $this->getTree($model);
-    //return sfView::NONE;
+    return sfView::NONE;
   }
 
   public function executeEdit_field()
@@ -65,7 +67,7 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
     $field = $this->getRequestParameter('field');
     $value = $this->getRequestParameter('value');
 
-    $record = Doctrine::getTable($model)->find($id);
+    $record = Doctrine_Core::getTable($model)->find($id);
     $record->set($field, $value);
     $record->save();
 
@@ -76,60 +78,40 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
   {
     $id = $this->getRequestParameter('id');
     $model = $this->getRequestParameter('model');
-    $root = $this->getRequestParameter('root');
     
-    $record = Doctrine::getTable($model)->find($id);
+    $record = Doctrine_Core::getTable($model)->find($id);
     $record->getNode()->delete();
-  
-    $this->records = $this->getTree($model, $root);
+    return sfView::NONE;
+   // $this->records = $this->getTree($model, $root);
   }
 
   public function executeMove()
   {
     $id = $this->getRequestParameter('id');
-    $model = $this->getRequestParameter('model');
-    $direction = $this->getRequestParameter('direction');
-    $root = $this->getRequestParameter('root');
-    
-    $record = Doctrine::getTable($model)->find($id);
-    
-    if( $direction == 'up' )
-    {
-      $prev = $record->getNode()->getPrevSibling();
-      $record->getNode()->moveAsPrevSiblingOf($prev);
-    }
-    else if( $direction == 'down' )
-    {
-      $next = $record->getNode()->getNextSibling();
-      $record->getNode()->moveAsNextSiblingOf($next);
-    }
-    
-    $this->records = $this->getTree($model, $root);
-  }
-
-  public function executeMove_to()
-  {
-    $id = $this->getRequestParameter('id');
-    $model = $this->getRequestParameter('model');
-    $root = $this->getRequestParameter('root');
-    
-    $record = Doctrine::getTable($model)->find($id);
-  
-    $this->records = $this->getTree($model, $root);
-  }
-
-  public function executeDo_move_to()
-  {
-    $id = $this->getRequestParameter('id');
     $to_id = $this->getRequestParameter('to_id');
     $model = $this->getRequestParameter('model');
-    $root = $this->getRequestParameter('root');
+    $movetype = $this->getRequestParameter('movetype');
     
-    $record = Doctrine::getTable($model)->find($id);
-    $record_to = Doctrine::getTable($model)->find($to_id);
-
-    $record->getNode()->moveAsFirstChildOf($record_to);
-    $this->records = $this->getTree($model, $root);
+    $record = Doctrine_Core::getTable($model)->find($id);
+    $dest = Doctrine_Core::getTable($model)->find($to_id);
+    
+    if( $movetype == 'inside' )
+    {
+      //$prev = $record->getNode()->getPrevSibling();
+      $record->getNode()->moveAsLastChildOf($dest);
+    }
+    else if( $movetype == 'after' )
+    {
+      $record->getNode()->moveAsNextSiblingOf($dest);
+    }
+    
+    else if( $movetype == 'before' )
+    {
+      //$next = $record->getNode()->getNextSibling();
+      $record->getNode()->moveAsPrevSiblingOf($dest);
+    }
+    //return sfView::NONE;
   }
 
+ 
 }
