@@ -30,18 +30,21 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
   {
     $parent_id = $this->getRequestParameter('parent_id');
     $model = $this->getRequestParameter('model');
-    $root = $this->getRequestParameter('root');
     $field = $this->getRequestParameter('field');
     $value = $this->getRequestParameter('value');
-    
     $record = Doctrine_Core::getTable($model)->find($parent_id);
-
 
     $child = new $model;
     $child->set($field, $value);
     $record->getNode()->addChild($child);
     
-    $this->records = $this->getTree($model, $root);
+    $this->json = json_encode($child->toArray());
+    
+    $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+    $this->setTemplate('json');
+    
+    
+
   }
   
   public function executeAdd_root()
@@ -71,7 +74,10 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
     $record->set($field, $value);
     $record->save();
 
-    return sfView::NONE;
+    $this->json = json_encode($record->toArray());
+    
+    $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+    $this->setTemplate('json');
   }
 
   public function executeDelete()
@@ -81,8 +87,10 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
     
     $record = Doctrine_Core::getTable($model)->find($id);
     $record->getNode()->delete();
-    return sfView::NONE;
-   // $this->records = $this->getTree($model, $root);
+    $this->json = json_encode(array());
+    $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+    $this->setTemplate('json');
+    
   }
 
   public function executeMove()
