@@ -1,4 +1,4 @@
-# Symfony Doctrine Nested Set Manager Plugin #
+# Symfony Jquery Tree Doctrine Manager Plugin based on JsTree #
 
 ## Installation ##
 You must enable the module for the nested set manager in your application settings.yml
@@ -16,3 +16,8 @@ You must enable the module for the nested set manager in your application settin
     use_helper("sfJqueryTreeDoctrine");
 
     echo get_nested_set_manager("Category", "name");
+
+
+This plugin is inspired by [sfDoctrineNestedSetManagerPlugin](http://www.symfony-project.org/plugins/sfDoctrineNestedSetManagerPlugin "sfDoctrineNestedSetManagerPlugin")
+
+It add drag and drop support, and is compatible with Symfony 1.4
