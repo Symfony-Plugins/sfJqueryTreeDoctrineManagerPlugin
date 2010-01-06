@@ -11,9 +11,8 @@ You must enable the module for the nested set manager in your application settin
 
 ## Usage ##
     [php]
-    &lt;?php
+    <?php
     // Need to use the helper
-    use_helper(&#039;sfJqueryTreeDoctrine&#039;);
+    use_helper("sfJqueryTreeDoctrine");
 
-    // Category nested set with 1 root
-    echo get_nested_set_manager(&#039;Category&#039;, &#039;name&#039;);
+    echo get_nested_set_manager("Category", "name");
