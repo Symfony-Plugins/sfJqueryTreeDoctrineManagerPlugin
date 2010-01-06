@@ -118,7 +118,9 @@ class sfJqueryTreeDoctrineManagerActions extends sfActions
       //$next = $record->getNode()->getNextSibling();
       $record->getNode()->moveAsPrevSiblingOf($dest);
     }
-    //return sfView::NONE;
+    $this->json = json_encode($record->toArray());
+    $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+    $this->setTemplate('json');
   }
 
  
