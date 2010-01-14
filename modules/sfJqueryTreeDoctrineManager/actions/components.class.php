@@ -1,27 +1,22 @@
 <?php
 
+/*
+ * This file is part of the symfony package.
+ * (c) 2004-2006 Fabien Potencier <fabien.potencier@symfony-project.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
-class sfJqueryTreeDoctrineManagerComponents extends sfComponents
+/**
+ * sfJqueryTreeDoctrineManager components.
+ *
+ * @package    symfony
+ * @subpackage plugin
+ * @author     Gregory Schurgast <michkinn@gmail.com>
+ * @author     Gordon Franke <info@nevalon.de>
+ * @version    SVN: $Id: BasesfGuardAuthActions.class.php 7745 2008-03-05 11:05:33Z fabien $
+ */
+class sfJqueryTreeDoctrineManagerComponents extends BasesfJqueryTreeDoctrineManagerComponents
 {
-    public function getTree($model, $rootId = 0)
-  {
-    $tree = Doctrine_Core::getTable($model)->getTree();
-    
-    if( $rootId )
-    {
-      $root = $tree->findRoot($rootId);
-      return $tree->fetchBranch($root->getId()); 
-      
-    } else {
-      return $tree->fetchTree();
-    }
-  }
-
-  public function executeManager()
-  {
-    $this->records = $this->getTree($this->model, $this->root);
-    if (!$this->records){ echo 'pas de racine';}
-    
-    
-  }
 }
