@@ -1,1 +1,1 @@
-<?php echo $sf_data->getRaw('json'); ?>
+<?php echo $json; ?>

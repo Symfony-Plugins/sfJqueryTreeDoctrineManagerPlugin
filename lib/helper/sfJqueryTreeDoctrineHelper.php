@@ -1,5 +1,6 @@
 <?php
-    function get_nested_set_manager($model, $field, $root = 0){
+    
+		function get_nested_set_manager($model, $field, $root = 0){
         sfContext::getInstance()->getResponse()->addStylesheet('/sfJqueryTreeDoctrineManagerPlugin/jsTree/themes/default/style.css');
         sfContext::getInstance()->getResponse()->addStylesheet('/sfJqueryTreeDoctrineManagerPlugin/css/screen.css');
         sfContext::getInstance()->getResponse()->addJavascript('/sfJqueryTreeDoctrineManagerPlugin/jsTree/lib/jquery.js');

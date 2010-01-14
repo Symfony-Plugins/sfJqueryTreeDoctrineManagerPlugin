@@ -1,4 +1,4 @@
-#sf_admin_container ul li a { padding: 0; background : none;}
+#sf_admin_container .nested_set_manager_holder ul li a { padding: 0; background : none;}
 
 #sf_admin_container .waiting
 {
