@@ -15,14 +15,6 @@
 	</li>
 </ul>
 
-
-
-
-
-
-
-
-
 <?php echo javascript_tag();?>
     $(document).ready(function(){
 

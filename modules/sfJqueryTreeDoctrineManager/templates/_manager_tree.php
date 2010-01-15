@@ -3,7 +3,6 @@
     <div style="clear:both">&nbsp;</div>
 </div>
 
-
 <div class="sf_admin_actions">
   <?php include_partial('sfJqueryTreeDoctrineManager/list_batch_actions') ?>
   <?php include_partial('sfJqueryTreeDoctrineManager/list_actions', array('model' => $model, 'field' => $field, 'root' => $root, 'records' => $records, 'hasManyRoots' => $hasManyRoots)); ?>

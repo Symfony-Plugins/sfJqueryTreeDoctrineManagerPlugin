@@ -54,17 +54,18 @@ class BasesfJqueryTreeDoctrineManagerActions extends sfActions
   {
     $model = $this->getRequestParameter('model');
     $data = $this->getRequestParameter( strtolower($model) );
-    
     $tree = $this->getTree($model);
     
     $root = new $model;
-    
-    $root->synchronizeWithArray( $data );    
+    $root->synchronizeWithArray( $data );
+		$root->save();
     
     Doctrine_Core::getTable($model)->getTree()->createRoot($root);
     $this->records = $this->getTree($model);
 
-    return sfView::NONE;
+    $this->json = json_encode($record->toArray());
+    $this->getResponse()->setHttpHeader('Content-type', 'application/json');
+    $this->setTemplate('json');
   }
 
   public function executeEdit_field()
@@ -79,7 +80,6 @@ class BasesfJqueryTreeDoctrineManagerActions extends sfActions
     $record->save();
 
     $this->json = json_encode($record->toArray());
-    
     $this->getResponse()->setHttpHeader('Content-type', 'application/json');
     $this->setTemplate('json');
   }
