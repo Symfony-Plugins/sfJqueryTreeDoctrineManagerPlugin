@@ -6,7 +6,7 @@
             <?php if($prevLevel > 0 && $record->getNode()->getLevel() == $prevLevel)  echo '</li>';
             if($record->getNode()->getLevel() > $prevLevel)  echo '<ul>'; 
             elseif ($record->getNode()->getLevel() < $prevLevel) echo str_repeat('</ul></li>', $prevLevel - $record->getNode()->getLevel()); ?>
-            <li id ="phtml_<?php echo $record->id ?>" class="open">
+            <li id ="phtml_<?php echo $record->id ?>">
                 <a href="#"><ins>&nbsp;</ins><?php echo $record->$field;?></a> 
             <?php $prevLevel = $record->getNode()->getLevel();
         endforeach; ?>        
@@ -16,7 +16,11 @@
 <?php echo javascript_tag();?>
 $(function () {
 	$("#<?php echo strtolower($model);?>-nested-set").tree({
-  	callback: {// activate add and delete node button
+  	plugins : { 
+			cookie : { prefix : "<?php echo strtolower($model);?>_jstree_" }
+		},
+		
+		callback: {// activate add and delete node button
 			onchange: function(){ $('.nodeinteraction').attr('disabled','');},
       
 			onrename : function (NODE, TREE_OBJ, RB) {
