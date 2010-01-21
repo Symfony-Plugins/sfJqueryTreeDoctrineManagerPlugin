@@ -1,1 +1,1 @@
-<?php echo html_entity_decode($json); ?>
+<?php echo $sf_data->getRaw('json'); ?>
