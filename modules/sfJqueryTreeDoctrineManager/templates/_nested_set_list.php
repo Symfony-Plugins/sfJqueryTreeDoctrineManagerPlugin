@@ -1,14 +1,14 @@
-<?php if( isset($records) && is_object($records) && $records->count() > 0 ): ?>
+<?php if( isset($records) && is_object($records) && count($records) > 0 ): ?>
     <div id="<?php echo strtolower($model);?>-nested-set">
         <ul class="nested_set_list">
         <?php $prevLevel = 0;?>      
         <?php foreach($records as $record): ?>
-            <?php if($prevLevel > 0 && $record->getNode()->getLevel() == $prevLevel)  echo '</li>';
-            if($record->getNode()->getLevel() > $prevLevel)  echo '<ul>'; 
-            elseif ($record->getNode()->getLevel() < $prevLevel) echo str_repeat('</ul></li>', $prevLevel - $record->getNode()->getLevel()); ?>
+            <?php if($prevLevel > 0 && $record['level'] == $prevLevel)  echo '</li>';
+            if($record['level'] > $prevLevel)  echo '<ul>'; 
+            elseif ($record['level'] < $prevLevel) echo str_repeat('</ul></li>', $prevLevel - $record['level']); ?>
             <li id ="phtml_<?php echo $record->id ?>">
                 <a href="#"><ins>&nbsp;</ins><?php echo $record->$field;?></a> 
-            <?php $prevLevel = $record->getNode()->getLevel();
+            <?php $prevLevel = $record['level'];
         endforeach; ?>        
         </ul>
     </div>
