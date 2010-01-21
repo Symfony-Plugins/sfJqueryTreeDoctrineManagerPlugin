@@ -1,4 +1,4 @@
-<?php if( isset($records) && is_object($records) && count($records) > 0 ): ?>
+ <?php if( isset($records) && is_object($records) && count($records) > 0 ): ?>
     <div id="<?php echo strtolower($model);?>-nested-set">
         <ul class="nested_set_list">
         <?php $prevLevel = 0;?>      
