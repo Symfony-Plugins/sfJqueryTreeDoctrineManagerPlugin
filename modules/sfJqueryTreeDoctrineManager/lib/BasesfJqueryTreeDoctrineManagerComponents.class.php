@@ -20,16 +20,19 @@
 class BasesfJqueryTreeDoctrineManagerComponents extends sfComponents
 {
   public function executeManager(){
-		$this->options = $this->getModelOptions();
-		$this->hasManyRoots = $this->modelHasManyRoots();
-		if ($this->records = $this->executeControl()){
+		
+		if ($this->records = $this->executeControl())
+        {
+            $this->hasManyRoots = $this->modelHasManyRoots();
 			$request = $this->getRequest();
 			
-			if (  !$request->hasParameter('root') && !$this->modelHasManyRoots() ){
+			if (  !$request->hasParameter('root') && !$this->modelHasManyRoots() )
+            {
 				$this->getController()->redirect(url_for(  $request->getParameter('module') . '/'. $request->getParameter('action') .'?root=1'), true);
 				return sfView::NONE;
 			}
-			elseif ( !$request->hasParameter('root') && $this->modelHasManyRoots() ){
+			elseif ( !$request->hasParameter('root') && $this->modelHasManyRoots() )
+            {
 				$this->roots = $this->getRoots( $this->model );
 			}
 			else{
@@ -42,7 +45,8 @@ class BasesfJqueryTreeDoctrineManagerComponents extends sfComponents
 	 * return exception if Model is not defined as NestedSet
 	*/
 	private function executeControl(){
-		if ( !$this->modelIsNestedSet() ){
+		if ( ! Doctrine_Core::getTable($this->model)->isTree() )
+        {
 			throw new Exception('Model "'.$this->model.'" is not a NestedSet');
 			return false;
 		}
@@ -54,37 +58,27 @@ class BasesfJqueryTreeDoctrineManagerComponents extends sfComponents
 	* Returns the roots
 	*/
 	private function getRoots($model){
-		$tree = Doctrine_Core::getTable($model)->getTree();
-    return $tree->fetchRoots();
-  }
+        $tree = Doctrine_Core::getTable($model)->getTree();
+        return $tree->fetchRoots();
+    }
 	
-	
-	 private function getTree($model, $rootId = null){
-		$tree = Doctrine_Core::getTable($model)->getTree();
-
-    $options = array();
-    if($rootId !== null)
-    {
-      $options['root_id'] = $rootId;
+    private function getTree($model, $rootId = null){
+        $tree = Doctrine_Core::getTable($model)->getTree();
+        $options = array();
+        if($rootId !== null)
+        {
+            $options['root_id'] = $rootId;
+        }
+        return $tree->fetchTree($options);
     }
 
-    return $tree->fetchTree($options);
-  }
-	
-	/*
-	 * Return the options of the model
-	 */
-	private function getModelOptions(){
-		$model = $this->model;
-		$record = new $model;
-		return $record->getOptions();
-	}
-	
 	private function modelIsNestedSet(){
 		return $this->options['treeImpl'] == 'NestedSet';
 	}
 	
 	private function modelHasManyRoots(){
-		return isset($this->options['treeOptions']['hasManyRoots']) && $this->options['treeOptions']['hasManyRoots'];
+		$template = Doctrine_Core::getTable($this->model)->getTemplate('NestedSet');
+        $options = $template->option('treeOptions');
+        return isset($options['hasManyRoots']) && $options['hasManyRoots'];
 	}
 }
