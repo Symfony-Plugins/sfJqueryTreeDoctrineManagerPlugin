@@ -9,3 +9,6 @@
   border-bottom: 1px solid #ddd;
   background-color: #ffc;
 }
+
+
+#jstree-contextmenu .edit  ins {background-position : 0 0;}
