@@ -1,8 +1,13 @@
 <?php
     
-    function get_nested_set_manager($model, $field, $root = 0){
-        
-        if ( !sfConfig::has('app_sfJqueryTree_withContextMenu') ){
+    function get_nested_set_manager($model, $field, $root = 0){ 
+    	add_needed_assets();
+    	       
+        return get_component('sfJqueryTreeDoctrineManager', 'manager', array('model' => $model, 'field' => $field, 'root' => $root));
+    }
+    
+    function add_needed_assets(){
+    	if ( !sfConfig::has('app_sfJqueryTree_withContextMenu') ){
             sfConfig::set('app_sfJqueryTree_withContextMenu',true);
         }
     
@@ -16,6 +21,4 @@
         if ( sfConfig::get('app_sfJqueryTree_withContextMenu') ){
             sfContext::getInstance()->getResponse()->addJavascript('/sfJqueryTreeDoctrineManagerPlugin/jsTree/plugins/jquery.tree.contextmenu.js');
         }
-        
-        return get_component('sfJqueryTreeDoctrineManager', 'manager', array('model' => $model, 'field' => $field, 'root' => $root));
     }
