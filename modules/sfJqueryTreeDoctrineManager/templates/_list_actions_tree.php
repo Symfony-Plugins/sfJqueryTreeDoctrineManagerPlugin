@@ -22,7 +22,8 @@
 	</li>
 </ul>
 
-<?php echo javascript_tag();?>
+<script type="text/javascript">
+<!--
     $(document).ready(function(){
 
     $('.createnode').click(function(e){
@@ -50,5 +51,6 @@
         }
     });
 
-    })
-<?php echo end_javascript_tag();?>
+    });
+//-->
+</script>

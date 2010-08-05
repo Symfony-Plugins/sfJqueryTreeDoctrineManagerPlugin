@@ -14,7 +14,7 @@
             <?php echo  str_repeat('</li></ul>', $prevLevel - $record['level']); ?> 
 <?php           endif; ?>
             <li id ="phtml_<?php echo $record->id ?>">
-                <a href="#"><ins>&nbsp;</ins><?php echo $record->$field;?></a>
+                <a href="<?php echo ($url = sfConfig::get('app_sfJqueryTree_route_edit'))? url_for($url, $record):'#' ?>"><ins>&nbsp;</ins><?php echo $record->$field;?></a>
 <?php          $prevLevel = $record['level']; ?>
 <?php      endforeach; ?>        
 <?php for($i=1;$i<$levels;$i++):?>
@@ -49,8 +49,15 @@ $(function () {
 							// otherwise - OK
 							return 1; 
 						}, 
-						action	: function (NODE, TREE_OBJ) { 
-								document.location.href = '<?php echo strtolower($model);?>/' +  NODE.attr('id').replace('phtml_','') + '/edit';
+						action	: function (NODE, TREE_OBJ) {
+<?php 
+	if(sfConfig::has('app_sfJqueryTree_route_edit')){
+		$url = "$(NODE).find('a').attr('href')";
+	}else{
+		$url = "'".strtolower($model)."/' +  NODE.attr('id').replace('phtml_','') + '/edit'";
+	}
+?>
+								document.location.href = <?php echo $url ?>;
 						},
 						separator_before : true
 					}
