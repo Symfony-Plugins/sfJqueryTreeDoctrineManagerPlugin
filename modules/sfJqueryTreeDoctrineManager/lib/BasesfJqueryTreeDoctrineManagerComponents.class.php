@@ -58,18 +58,11 @@ class BasesfJqueryTreeDoctrineManagerComponents extends sfComponents
 	* Returns the roots
 	*/
 	private function getRoots($model){
-        $tree = Doctrine_Core::getTable($model)->getTree();
-        return $tree->fetchRoots();
+		return sfJqueryTreeDoctrineManager::getRoots($model);
     }
 	
     private function getTree($model, $rootId = null){
-        $tree = Doctrine_Core::getTable($model)->getTree();
-        $options = array();
-        if($rootId !== null)
-        {
-            $options['root_id'] = $rootId;
-        }
-        return $tree->fetchTree($options);
+        return sfJqueryTreeDoctrineManager::getTree($model, $rootId);
     }
 
 	private function modelIsNestedSet(){
@@ -77,8 +70,6 @@ class BasesfJqueryTreeDoctrineManagerComponents extends sfComponents
 	}
 	
 	private function modelHasManyRoots(){
-		$template = Doctrine_Core::getTable($this->model)->getTemplate('NestedSet');
-        $options = $template->option('treeOptions');
-        return isset($options['hasManyRoots']) && $options['hasManyRoots'];
+		return sfJqueryTreeDoctrineManager::modelHasManyRoots($this->model);
 	}
 }
