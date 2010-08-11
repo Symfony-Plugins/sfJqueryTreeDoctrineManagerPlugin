@@ -32,6 +32,20 @@ class sfJqueryTreeDoctrineManager
 	}
 	
 	/**
+	 * Returns the subobjects of the specified node
+	 * 
+	 * @param string $model
+	 * @param int $nodeId
+	 * @return Doctrine_Collection
+	 */
+	public static function getBranch($model, $nodeId)
+	{
+		$tree = Doctrine_Core::getTable($model)->getTree();
+		
+        return $tree->fetchBranch($nodeId);
+	}
+	
+	/**
 	 * Return true if the model specified has many roots, else return false
 	 * 
 	 * @param string $model
