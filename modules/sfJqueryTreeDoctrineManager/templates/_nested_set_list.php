@@ -1,22 +1,26 @@
  <?php if( isset($records) && is_object($records) && count($records) > 0 ): ?>
     <div id="<?php echo strtolower($model);?>-nested-set">
         <ul class="nested_set_list">
-<?php       $prevLevel = 0;?>
+<?php       $prevLevel = false;?>
 <?php       $levels = 0;?>    
 <?php       foreach($records as $record): ?>
 <?php           if($prevLevel > 0 && $record['level'] == $prevLevel): ?>
         	</li> 
 <?php           endif; ?>
+<?php           if($prevLevel === false){ $prevLevel = $record['level']; }?>
 <?php           if($record['level'] > $prevLevel): $levels++; ?> 
 		<ul>
 		
 <?php           elseif($record['level'] < $prevLevel): ?>
             <?php echo  str_repeat('</li></ul>', $prevLevel - $record['level']); ?> 
 <?php           endif; ?>
-            <li id ="phtml_<?php echo $record->id ?>">
+            <li id="phtml_<?php echo $record->id ?>">
                 <a href="<?php echo ($url = sfConfig::get('app_sfJqueryTree_route_edit'))? url_for($url, $record):'#' ?>"><ins>&nbsp;</ins><?php echo $record->$field;?></a>
 <?php          $prevLevel = $record['level']; ?>
-<?php      endforeach; ?>        
+<?php      endforeach; ?>  
+<?php      if($prevLevel > 0 && $record['level'] == $prevLevel): ?>
+            </li> 
+<?php      endif; ?>      
 <?php for($i=1;$i<$levels;$i++):?>
 		</ul>
 <?php endfor; ?>
