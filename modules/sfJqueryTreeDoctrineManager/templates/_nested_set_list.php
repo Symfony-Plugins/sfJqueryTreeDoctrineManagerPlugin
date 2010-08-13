@@ -1,8 +1,11 @@
  <?php if( isset($records) && is_object($records) && count($records) > 0 ): ?>
     <div id="<?php echo strtolower($model);?>-nested-set">
         <ul class="nested_set_list">
-<?php       $prevLevel = false;?>
-<?php       $levels = 0;?>    
+<?php       
+	        $prevLevel = false;
+            $levels = 0;
+            $i = 1;
+?>    
 <?php       foreach($records as $record): ?>
 <?php           if($prevLevel > 0 && $record['level'] == $prevLevel): ?>
         	</li> 
@@ -21,9 +24,9 @@
 <?php      if($prevLevel > 0 && $record['level'] == $prevLevel): ?>
             </li> 
 <?php      endif; ?>      
-<?php for($i=1;$i<$levels;$i++):?>
+<?php for($i=$prevLevel;$i<=$levels;$i++):?>
 		</ul>
-<?php endfor; ?>
+<?php endfor;?>
         </ul>
     </div>
 <?php endif;?>
